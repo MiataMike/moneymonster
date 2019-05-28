@@ -13,7 +13,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
 import math
 
-ts = TimeSeries(key='DONT1C40C86U80WO',output_format='pandas', indexing_type='date')
+#ts = TimeSeries(key='DONT1C40C86U80WO',output_format='pandas', indexing_type='date')
 #data, meta_data = ts.get_intraday(symbol='MSFT',interval='1min', outputsize='compact')
 #print(data["4. close"])
 #data.plot()
@@ -75,11 +75,12 @@ testX = np.reshape(testX, (testX.shape[0], 1, testX.shape[1]))
 # # create and fit the LSTM network
 model = Sequential()
 model.add(Dense(4,input_shape=(1, look_back),activation='relu'))
-model.add(Conv1D(32,1,strides=2))
-model.add(LSTM(30))
+model.add(LSTM(100))
+model.add(Dense(4,activation='tanh'))
 model.add(Dense(1))
-model.compile(loss='mean_squared_error', optimizer='adam')
-model.fit(trainX, trainY, epochs=10, batch_size=1, verbose=2)
+model.compile(optimizer='rmsprop',
+              loss='mean_absolute_error')
+model.fit(trainX, trainY, epochs=100, batch_size=1, verbose=2)
 
 # make predictions
 trainPredict = model.predict(trainX)
