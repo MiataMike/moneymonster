@@ -3,6 +3,9 @@ from alpha_vantage.timeseries import TimeSeries
 from alpha_vantage.techindicators import TechIndicators
 import pandas as pd
 import math
+import time
+from time import strftime
+from time import gmtime
 
 ts = TimeSeries(key='DONT1C40C86U80WO',output_format='pandas', indexing_type='date')
 ti = TechIndicators(key='DONT1C40C86U80WO', output_format='pandas')
@@ -57,7 +60,7 @@ def normalize(dayNum):
 
 sp100 = pd.read_csv("constituents_csvSP100.csv")
 print(sp100)
-for ticker in sp500 ['Symbol']:
+for ticker in sp100:
     readabletime = strftime("%a, %d %b %Y %H:%M:%S", gmtime())
     print('getting data for {} at {}'.format(ticker,readabletime))
     daydata, daymeta_data = ts.get_daily(symbol=ticker, outputsize='compact')
@@ -65,7 +68,7 @@ for ticker in sp500 ['Symbol']:
     rsidata, rsimeta_data = ti.get_rsi(symbol=ticker)
     adxdata, adxmeta_data = ti.get_adx(symbol=ticker)
     for day in range(1,97):
-        with open('masterData.csv') as csvfile:
+        with open('masterData.csv', mode='w') as csvfile:
             pointWriter = csv.writer(csvfile)
-            pointWriter.wrightrow(normalize(day))
+            pointWriter.writerow(normalize(day))
     time.sleep(60)
