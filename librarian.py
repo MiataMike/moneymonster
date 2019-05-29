@@ -7,8 +7,11 @@ import time
 from time import strftime
 from time import gmtime
 
-ts = TimeSeries(key='DONT1C40C86U80WO',output_format='pandas', indexing_type='date')
-ti = TechIndicators(key='DONT1C40C86U80WO', output_format='pandas')
+apikey = 'DONT1C40C86U80WO'
+apikey = 'HB012PXU24EQA3JL'
+
+ts = TimeSeries(key=apikey,output_format='pandas', indexing_type='date')
+ti = TechIndicators(key=apikey, output_format='pandas')
 
 
 def normalizeDay(pointList, emaList, day):
@@ -57,18 +60,21 @@ def normalize(dayNum):
     return N_all
 
 
-
-sp100 = pd.read_csv("constituents_csvSP100.csv")
+sp100 = []
+with open('constituents_csvSP69.csv') as csvfile:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        sp100.append(row[0])
 print(sp100)
 for ticker in sp100:
     readabletime = strftime("%a, %d %b %Y %H:%M:%S", gmtime())
     print('getting data for {} at {}'.format(ticker,readabletime))
-    daydata, daymeta_data = ts.get_daily(symbol=ticker, outputsize='compact')
+    daydata, daymeta_data = ts.get_daily(symbol=ticker, outputsize='full')
     emadata, emameta_data = ti.get_ema(symbol=ticker)
     rsidata, rsimeta_data = ti.get_rsi(symbol=ticker)
     adxdata, adxmeta_data = ti.get_adx(symbol=ticker)
-    for day in range(1,97):
-        with open('masterData.csv', mode='w') as csvfile:
+    for day in range(1,1000):
+        with open('masterData.csv', mode='a') as csvfile:
             pointWriter = csv.writer(csvfile)
             pointWriter.writerow(normalize(day))
     time.sleep(60)
