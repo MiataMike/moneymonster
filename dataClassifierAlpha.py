@@ -14,7 +14,8 @@ with open('alpha.csv','w') as alphafile:
         writer = csv.writer(alphafile)
         writer.writerow(alphaFieldnames)
 
-with open('masterData.csv') as csvfile:
+masterFile = 'masterData.csv'
+with open(masterFile) as csvfile:
     reader = csv.DictReader(csvfile,fieldnames=masterDataFieldnames, quoting=csv.QUOTE_NONNUMERIC)
     for row in reader:
         high = .01
