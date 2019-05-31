@@ -25,7 +25,7 @@ model.add(Dense(17,input_dim=17,activation='relu'))
 #model.add(Dropout(.001))
 model.add(Dense(16,activation='relu'))
 model.add(Dropout(.5))
-model.add(Dense(1,activation='tanh'))
+model.add(Dense(1,activation='linear'))
 
 sgd = SGD(lr=0.5, decay=1e-8, momentum=0, nesterov=True)
 #rms = keras.optimizers.RMSprop(lr = 0.001, rho=0.9, epsilon=None, decay=0.0)

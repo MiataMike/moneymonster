@@ -25,7 +25,7 @@ with open(masterFile) as csvfile:
         today_close = math.atanh(row['N_close0'])
         yesterday_close = math.atanh(row['N_close1'])
         gainz = today_close - yesterday_close
-        tag = math.tanh(gainz)
+        tag = gainz
         outputList = [row['N_open1'], row['N_open2'], row['N_open3'], row['N_high1'], row['N_high2'], row['N_high3'],
              row['N_low1'], row['N_low2'], row['N_low3'], row['N_close1'], row['N_close2'], row['N_close3'],
              row['N_vol1'], row['N_vol2'], row['N_vol3'], row['N_rsi'], row['N_adx'], tag]
