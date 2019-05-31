@@ -6,8 +6,10 @@ from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.utils import np_utils
 from keras.optimizers import SGD
 
-alphadata = pd.read_csv('alpha.csv')
+alphadata = pd.read_csv('gains.csv')
 alpha = alphadata.sample(frac=1)
+alpha = alpha.sample(frac=1)
+alpha = alpha.sample(frac=1)
 alpha.columns = range(0,18)
 
 trainLen=int(len(alpha)*.7)
@@ -21,23 +23,34 @@ y_test = alpha.iloc[trainLen:len(alpha),17]
 #y_test = keras.utils.to_categorical(y_test)
 
 model = Sequential()
-model.add(Dense(17,input_dim=17)
-#model.add(Dropout(.001))
-model.add(Dense(20,activation='tanh'))
+model.add(Dense(17,input_dim=17))
+model.add(Dense(200,activation='tanh'))
+model.add(Dropout(.6))
+model.add(Dense(200,activation='tanh'))
+model.add(Dropout(.6))
+model.add(Dense(200,activation='tanh'))
+model.add(Dropout(.6))
+model.add(Dense(20,activation='softmax'))
+model.add(Dropout(.4))
 model.add(Dense(1,activation='linear'))
 
 sgd = SGD(lr=0.00001, decay=1e-6, momentum=0.9, nesterov=True)
-rms = keras.optimizers.RMSprop(lr = 1e-4, rho=0.9, epsilon=1e-9, decay=1e-6)
+rms = keras.optimizers.RMSprop(lr = 1e-2, rho=0.9, epsilon=1e-9, decay=1e-6)
 model.compile(loss='mean_squared_error',
-              optimizer=rms,
-              metrics=['accuracy'])
+              optimizer='adam')
 
 model.fit(x_train, y_train,
-          epochs=20,
-          batch_size=128)
+          epochs=600,
+          batch_size=2280)
 score = model.evaluate(x_test, y_test, batch_size=128)
 print(score)
 F = pd.read_csv('F.csv')
-print("F will:     {}".format(model.predict(F.values)))
-GPRO = pd.read_csv('GPRO.csv')
-print("GOPRO will: {}".format(model.predict(GPRO.values)))
+print("F    will:{}".format(model.predict(F.values)))
+GPRO = pd.read_csv('VTI.csv')
+print("VTI  will: {}".format(model.predict(GPRO.values)))
+TSLA = pd.read_csv('TSLA.csv')
+print("TSLA will: {}".format(model.predict(TSLA.values)))
+BEN = pd.read_csv('BEN.csv')
+print("BEN  will: {}".format(model.predict(BEN.values)))
+
+model.save('gains.h5')
