@@ -1,6 +1,7 @@
 import csv
 import math
 import time
+import numpy
 
 start = time.time()
 masterDataFieldnames = ['N_open0', 'N_open1', 'N_open2', 'N_open3', 'N_high0', 'N_high1', 'N_high2', 'N_high3',
@@ -30,8 +31,9 @@ with open(masterFile) as csvfile:
              row['N_low1'], row['N_low2'], row['N_low3'], row['N_close1'], row['N_close2'], row['N_close3'],
              row['N_vol1'], row['N_vol2'], row['N_vol3'], row['N_rsi'], row['N_adx'], tag]
         with open('alpha.csv', 'a') as alphafile:
-            writer = csv.writer(alphafile)
-            writer.writerow(outputList)
+            if(numpy.isnan(row['N_vol3']) != True):
+                writer = csv.writer(alphafile)
+                writer.writerow(outputList)
 
 end = time.time()
 print("{} seconds".format(end-start))

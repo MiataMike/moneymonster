@@ -15,22 +15,21 @@ trainLen=int(len(alpha)*.7)
 
 x_train = alpha.iloc[0:trainLen,0:17]
 y_train = alpha.iloc[0:trainLen,17]
-y_train = keras.utils.to_categorical(y_train)
+#y_train = keras.utils.to_categorical(y_train)
 x_test = alpha.iloc[trainLen:len(alpha),0:17]
 y_test = alpha.iloc[trainLen:len(alpha),17]
-y_test = keras.utils.to_categorical(y_test)
+#y_test = keras.utils.to_categorical(y_test)
 
 model = Sequential()
-model.add(Dense(17,input_dim=17,activation='relu'))
+model.add(Dense(17,input_dim=17)
 #model.add(Dropout(.001))
-model.add(Dense(16,activation='relu'))
-model.add(Dropout(.5))
+model.add(Dense(20,activation='tanh'))
 model.add(Dense(1,activation='linear'))
 
-sgd = SGD(lr=0.5, decay=1e-8, momentum=0, nesterov=True)
-#rms = keras.optimizers.RMSprop(lr = 0.001, rho=0.9, epsilon=None, decay=0.0)
+sgd = SGD(lr=0.00001, decay=1e-6, momentum=0.9, nesterov=True)
+rms = keras.optimizers.RMSprop(lr = 1e-4, rho=0.9, epsilon=1e-9, decay=1e-6)
 model.compile(loss='mean_squared_error',
-              optimizer=sgd,
+              optimizer=rms,
               metrics=['accuracy'])
 
 model.fit(x_train, y_train,
