@@ -12,16 +12,13 @@ alpha.columns = range(0,18)
 
 x_train = alpha.iloc[:,1:16]
 y_train = alpha.iloc[:,17]
-
+y_train = keras.utils.to_categorical(y_train)
 model = Sequential()
-model.add(Dense(16,input_dim=17,activation='relu'))
+model.add(Dense(16,input_dim=15,activation='relu'))
 model.add(Dropout(.1))
 model.add(Dense(8,activation='sigmoid'))
 model.add(Dropout(.1))
 model.add(Dense(6,activation='softmax'))
-model.compile(optimizer='rmsprop',
-              loss='categorical_crossentropy',
-              metrics=['accuracy'])
 
 sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='categorical_crossentropy',
