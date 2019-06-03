@@ -29,13 +29,13 @@ x_train, x_test, y_train, y_test = grab_data(filename)
 model = Sequential()
 model.add(Dense(17,input_dim=17))
 model.add(Dense(200,activation='tanh'))
-model.add(Dropout(.6))
-model.add(Dense(200,activation='tanh'))
-model.add(Dropout(.6))
-model.add(Dense(200,activation='relu'))
-model.add(Dropout(.6))
-model.add(Dense(40,activation='softmax'))
 model.add(Dropout(.4))
+model.add(Dense(200,activation='elu'))
+model.add(Dropout(.4))
+model.add(Dense(200,activation='sigmoid'))
+model.add(Dropout(.4))
+model.add(Dense(20,activation='softmax'))
+model.add(Dropout(.3))
 model.add(Dense(1,activation='linear'))
 
 sgd = SGD(lr=0.00001, decay=1e-6, momentum=0.9, nesterov=True)
@@ -45,7 +45,7 @@ model.compile(loss='mean_squared_error',
 def run_fit(epochs):
     model.fit(x_train, y_train,
           epochs=epochs,
-          batch_size=5280)
+          batch_size=2800)
     score = model.evaluate(x_test, y_test, batch_size=128)
     print(score)
     F = pd.read_csv('F.csv')
@@ -59,4 +59,4 @@ def run_fit(epochs):
 
     model.save('hains.h5')
 
-run_fit(100)
+run_fit(10)
