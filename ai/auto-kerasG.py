@@ -1,7 +1,7 @@
 import numpy as np
 import keras
 import pandas as pd
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.utils import np_utils
 from keras.optimizers import SGD
@@ -24,31 +24,14 @@ def grab_data(filename):
 #y_test = keras.utils.to_categorical(y_test)
     return x_train, x_test, y_train, y_test
 
-x_train, x_test, y_train, y_test = grab_data(filename)
 
-model = Sequential()
-model.add(Dense(17,input_dim=17))
-model.add(Dense(200,activation='tanh'))
-model.add(Dropout(.6))
-model.add(Dense(200,activation='tanh'))
-model.add(Dropout(.6))
-model.add(Dense(200,activation='tanh'))
-model.add(Dropout(.6))
-model.add(Dense(20,activation='softmax'))
-model.add(Dropout(.4))
-model.add(Dense(1,activation='linear'))
-
-sgd = SGD(lr=0.00001, decay=1e-6, momentum=0.9, nesterov=True)
-rms = keras.optimizers.RMSprop(lr = 1e-2, rho=0.9, epsilon=1e-9, decay=1e-6)
-model.compile(loss='mean_squared_error',
-              optimizer='adam')
 def run_fit(epochs):
     model.fit(x_train, y_train,
           epochs=epochs,
           batch_size=2280)
     score = model.evaluate(x_test, y_test, batch_size=128)
     print(score)
-    F = pd.read_csv('data/slicer/F.csv')
+    F = pd.read_csv('data/slices/F.csv')
     print("F    will:{}".format(model.predict(F.values)))
     GPRO = pd.read_csv('data/slices/VTI.csv')
     print("VTI  will: {}".format(model.predict(GPRO.values)))
@@ -57,6 +40,8 @@ def run_fit(epochs):
     BEN = pd.read_csv('data/slices/BEN.csv')
     print("BEN  will: {}".format(model.predict(BEN.values)))
 
-    model.save('ai/gains.h5')
 
+
+model = load_model('ai/gains.h5')
+x_train, x_test, y_train, y_test = grab_data(filename)
 run_fit(100)

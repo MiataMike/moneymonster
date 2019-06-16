@@ -54,9 +54,9 @@ def normalize(dayNum):
 
     N_rsi = rsidata['RSI'][len(rsidata)-dayNum]/100
     N_adx = adxdata['ADX'][len(adxdata)-dayNum]/100
-    N_all = [N_open0, N_open1, N_open2, N_open3, N_high0, N_high1, N_high2, N_high3,
-             N_low0, N_low1, N_low2, N_low3, N_close0, N_close1, N_close2, N_close3,
-             N_vol0, N_vol1, N_vol2, N_vol3, N_rsi, N_adx]
+    N_all = [N_open0, N_open1, N_open2,  N_high0, N_high1, N_high2,
+             N_low0, N_low1, N_low2, N_close0, N_close1, N_close2,
+             N_vol0, N_vol1, N_vol2, N_rsi, N_adx]
     return N_all
 
 
@@ -73,8 +73,12 @@ for ticker in sp100:
     emadata, emameta_data = ti.get_ema(symbol=ticker)
     rsidata, rsimeta_data = ti.get_rsi(symbol=ticker)
     adxdata, adxmeta_data = ti.get_adx(symbol=ticker)
-    for day in range(1,1000):
-        with open('data/masterData.csv', mode='a') as csvfile:
-            pointWriter = csv.writer(csvfile)
-            pointWriter.writerow(normalize(day))
+    with open('data/slices/{}.csv'.format(ticker), mode='w') as csvfile:
+        alphaFieldnames = ['N_open1', 'N_open2', 'N_open3',  'N_high1', 'N_high2', 'N_high3',
+                 'N_low1', 'N_low2', 'N_low3', 'N_close1', 'N_close2', 'N_close3',
+                 'N_vol1', 'N_vol2', 'N_vol3', 'N_rsi', 'N_adx']
+        pointWriter = csv.writer(csvfile)
+        pointWriter.writerow(alphaFieldnames)
+        pointWriter.writerow(normalize(1))
+    #print("Hold your horses cowboy")
     time.sleep(60)
