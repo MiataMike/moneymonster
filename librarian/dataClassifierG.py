@@ -11,7 +11,7 @@ masterDataFieldnames = ['N_open0', 'N_open1', 'N_open2', 'N_open3', 'N_high0', '
 alphaFieldnames = ['N_open1', 'N_open2', 'N_open3',  'N_high1', 'N_high2', 'N_high3',
              'N_low1', 'N_low2', 'N_low3', 'N_close1', 'N_close2', 'N_close3',
              'N_vol1', 'N_vol2', 'N_vol3', 'N_rsi', 'N_adx', 'tag']
-with open('gains.csv','w') as alphafile:
+with open('data/gains.csv','w') as alphafile:
         writer = csv.writer(alphafile)
         writer.writerow(alphaFieldnames)
 
