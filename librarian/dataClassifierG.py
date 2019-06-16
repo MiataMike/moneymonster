@@ -15,7 +15,7 @@ with open('gains.csv','w') as alphafile:
         writer = csv.writer(alphafile)
         writer.writerow(alphaFieldnames)
 
-masterFile = 'masterData.csv'
+masterFile = 'data/masterData.csv'
 with open(masterFile) as csvfile:
     reader = csv.DictReader(csvfile,fieldnames=masterDataFieldnames, quoting=csv.QUOTE_NONNUMERIC)
     for row in reader:

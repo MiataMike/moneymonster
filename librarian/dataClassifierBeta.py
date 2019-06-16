@@ -10,11 +10,11 @@ masterDataFieldnames = ['N_open0', 'N_open1', 'N_open2', 'N_open3', 'N_high0', '
 betaFieldnames = ['N_open1',
              'N_close1', 'N_close2',
              'N_vol1',  'N_rsi', 'N_adx', 'tag']
-with open('beta.csv','w') as betafile:
+with open('data/beta.csv','w') as betafile:
         writer = csv.writer(betafile)
         writer.writerow(betaFieldnames)
 
-masterFile = 'masterData.csv'
+masterFile = 'data/masterData.csv'
 with open(masterFile) as csvfile:
     reader = csv.DictReader(csvfile,fieldnames=masterDataFieldnames, quoting=csv.QUOTE_NONNUMERIC)
     for row in reader:
@@ -39,7 +39,7 @@ with open(masterFile) as csvfile:
             tag = 5
         outputList = [row['N_open1'],  row['N_close1'], row['N_close2'],
              row['N_vol1'], row['N_rsi'], row['N_adx'], tag]
-        with open('beta.csv', 'a') as betafile:
+        with open('data/beta.csv', 'a') as betafile:
             writer = csv.writer(betafile)
             writer.writerow(outputList)
 

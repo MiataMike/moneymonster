@@ -3,13 +3,13 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-model = keras.models.load_model('hains.h5')
+model = keras.models.load_model('data/hains.h5')
 
 guesses = []
 price_predictions= []
 price_close = []
 filename = input("what stock would you like to backtest?")
-F = pd.read_csv('{}back.csv'.format(filename))
+F = pd.read_csv('data/{}back.csv'.format(filename))
 #print("F    will:{}".format(model.predict(F.values)))
 for day in range(len(F)):
     Ftmp = F.iloc[day].values[0:17]

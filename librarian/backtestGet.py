@@ -69,7 +69,7 @@ emadata, emameta_data = ti.get_ema(symbol=ticker)
 rsidata, rsimeta_data = ti.get_rsi(symbol=ticker)
 adxdata, adxmeta_data = ti.get_adx(symbol=ticker)
 
-with open('{}back.csv'.format(ticker), mode='w') as csvfile:
+with open('data/{}back.csv'.format(ticker), mode='w') as csvfile:
     alphaFieldnames = ['N_open1', 'N_open2', 'N_open3',  'N_high1', 'N_high2', 'N_high3',
              'N_low1', 'N_low2', 'N_low3', 'N_close1', 'N_close2', 'N_close3',
              'N_vol1', 'N_vol2', 'N_vol3', 'N_rsi', 'N_adx', 'open']
