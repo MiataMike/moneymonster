@@ -61,7 +61,7 @@ def normalize(dayNum):
 
 
 sp100 = []
-with open('constituents_csvSP69.csv') as csvfile:
+with open('data/constituents_csvSP69.csv') as csvfile:
     reader = csv.reader(csvfile)
     for row in reader:
         sp100.append(row[0])
@@ -74,7 +74,7 @@ for ticker in sp100:
     rsidata, rsimeta_data = ti.get_rsi(symbol=ticker)
     adxdata, adxmeta_data = ti.get_adx(symbol=ticker)
     for day in range(1,1000):
-        with open('masterData.csv', mode='a') as csvfile:
+        with open('data/masterData.csv', mode='a') as csvfile:
             pointWriter = csv.writer(csvfile)
             pointWriter.writerow(normalize(day))
     time.sleep(60)
