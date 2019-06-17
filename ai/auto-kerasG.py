@@ -5,6 +5,7 @@ from keras.models import Sequential, load_model
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.utils import np_utils
 from keras.optimizers import SGD
+import csv
 
 filename = 'data/gains.csv'
 def grab_data(filename):
@@ -25,23 +26,45 @@ def grab_data(filename):
     return x_train, x_test, y_train, y_test
 
 
+#x_train, x_test, y_train, y_test = grab_data(filename)
+model = load_model('ai/gains.h5')
+
 def run_fit(epochs):
     model.fit(x_train, y_train,
           epochs=epochs,
           batch_size=2280)
     score = model.evaluate(x_test, y_test, batch_size=128)
     print(score)
-    F = pd.read_csv('data/slices/F.csv')
-    print("F    will:{}".format(model.predict(F.values)))
-    GPRO = pd.read_csv('data/slices/VTI.csv')
-    print("VTI  will: {}".format(model.predict(GPRO.values)))
-    TSLA = pd.read_csv('data/slices/TSLA.csv')
-    print("TSLA will: {}".format(model.predict(TSLA.values)))
-    BEN = pd.read_csv('data/slices/BEN.csv')
-    print("BEN  will: {}".format(model.predict(BEN.values)))
+    model.save('ai/gains.h5')
+#run_fit(2000)
 
 
+sp100 = []
+with open('data/constituents_csvSP100.csv') as csvfile:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        sp100.append(row[0])
+#print(sp100)
 
-model = load_model('ai/gains.h5')
-x_train, x_test, y_train, y_test = grab_data(filename)
-run_fit(100)
+predictions = []
+for ticker in sp100:
+    tickerCSV = pd.read_csv('data/slices/{}.csv'.format(ticker))
+    gain = model.predict(tickerCSV.values)
+    print("{} will : {}".format(ticker,gain))
+    predictions.append((gain,ticker))
+predictions.sort()
+top5 = []
+bottom5 = []
+p_len = len(predictions)-1
+
+for i in range(0,5):
+    top5.append(predictions[p_len-i])
+    bottom5.append(predictions[i])
+print("\n$")
+print("Top 5 gains")
+for i in top5:
+    print("{} will gain: {}".format(i[1],i[0]))
+print("~~~~")
+print("Top 5 Losers")
+for i in bottom5:
+    print("{} will gain: {}".format(i[1],i[0]))

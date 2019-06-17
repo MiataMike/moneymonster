@@ -30,10 +30,9 @@ with open(masterFile) as csvfile:
         outputList = [row['N_open1'], row['N_open2'], row['N_open3'], row['N_high1'], row['N_high2'], row['N_high3'],
              row['N_low1'], row['N_low2'], row['N_low3'], row['N_close1'], row['N_close2'], row['N_close3'],
              row['N_vol1'], row['N_vol2'], row['N_vol3'], row['N_rsi'], row['N_adx'], tag]
-        with open('gains.csv', 'a') as alphafile:
+        with open('data/gains.csv', 'a') as alphafile:
             if(numpy.isnan(row['N_vol3']) != True):
                 writer = csv.writer(alphafile)
                 writer.writerow(outputList)
-
 end = time.time()
 print("{} seconds".format(end-start))
