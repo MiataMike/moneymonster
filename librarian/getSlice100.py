@@ -8,24 +8,26 @@ from time import strftime
 from time import gmtime
 
 apikey = 'DONT1C40C86U80WO'
-apikey = 'HB012PXU24EQA3JL'
+#apikey = 'HB012PXU24EQA3JL'
 
+#setup alphavantage API
 ts = TimeSeries(key=apikey,output_format='pandas', indexing_type='date')
 ti = TechIndicators(key=apikey, output_format='pandas')
 
-
+#normalizes daily gains w.r.t. ema
 def normalizeDay(pointList, emaList, day):
     point = pointList[len(pointList)-day]
     daily_ema = emaList['EMA'][len(emaList)-day]
     return math.tanh((point-daily_ema)/daily_ema)
 
+#similarly normalizes volume
 def normalizeVol(pointList, day):
     point = pointList[len(pointList)-day]
     sma_vol = pointList.mean()
     return math.tanh((point-sma_vol)/sma_vol)
 
 ##lets normalize all data
-dayNum = 1
+#dayNum = 1
 def normalize(dayNum):
     N_open0 = normalizeDay(daydata['1. open'],emadata,dayNum)
     N_open1 = normalizeDay(daydata['1. open'],emadata,dayNum + 1)
@@ -59,13 +61,15 @@ def normalize(dayNum):
              N_vol0, N_vol1, N_vol2, N_rsi, N_adx]
     return N_all
 
-
+#setup target ticker list
 sp100 = []
 with open('data/constituents_csvSP100.csv') as csvfile:
     reader = csv.reader(csvfile)
     for row in reader:
         sp100.append(row[0])
 print(sp100)
+
+#format data in slices ready for inferencing
 for ticker in sp100:
     readabletime = strftime("%a, %d %b %Y %H:%M:%S", gmtime())
     print('getting data for {} at {}'.format(ticker,readabletime))
@@ -79,6 +83,7 @@ for ticker in sp100:
                  'N_vol1', 'N_vol2', 'N_vol3', 'N_rsi', 'N_adx']
         pointWriter = csv.writer(csvfile)
         pointWriter.writerow(alphaFieldnames)
-        pointWriter.writerow(normalize(1))
+        pointWriter.writerow(normalize(1)) #this line just looks at the most recent day
     #print("Hold your horses cowboy")
-    time.sleep(60)
+    #wait to limit API calls to 5/min
+    time.sleep(60) 
