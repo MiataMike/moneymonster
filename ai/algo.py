@@ -7,8 +7,8 @@ from options import black_scholes
 def put_algo(ticker):
     stock_price = tt.curr_price(ticker)
     risk_free = .035
-    percent_year = 5/260
-    volatility = tt.hist_vol(ticker,30)
+    percent_year = 15/260
+    volatility = tt.hist_vol(ticker,60)
     weekly_volatility = volatility / math.sqrt(50)
     strike_price = stock_price * (1-weekly_volatility)
 #    print("{}/{} with {} days and {}".format(ticker, strike, percent_year,strike_price)) 
@@ -26,8 +26,8 @@ def put_algo(ticker):
 def call_algo(ticker):
     stock_price = tt.curr_price(ticker)
     risk_free = .035
-    percent_year = 5/260
-    volatility = tt.hist_vol(ticker,30)
+    percent_year = 15/260
+    volatility = tt.hist_vol(ticker,60)
     weekly_volatility = volatility / math.sqrt(50)
     strike_price = stock_price * (1 + weekly_volatility)
 #    print("{}/{} with {} days and {}".format(ticker, strike, percent_year,strike_price)) 
