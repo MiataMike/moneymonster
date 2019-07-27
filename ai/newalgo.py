@@ -47,7 +47,7 @@ def call_algo(ticker):
     print("{0:.3g}% probability of profit".format(probability*100))
     print("stock price: {}".format(stock_price))
     print("strike price: {}".format(strike_price))
-    print("target price: {}".format(breakeven))
+    print("call price: {}".format(call_price))
 
 
 #get the date
@@ -93,7 +93,7 @@ def put_algo(ticker):
     print("{0:.3g}% probability of profit".format(probability*100))
     print("stock price: {}".format(stock_price))
     print("strike price: {}".format(strike_price))
-    print("target price: {}".format(breakeven))
+    print("put price: {}".format(put_price))
 
 #get the date
     monday = datetime.date.today()
