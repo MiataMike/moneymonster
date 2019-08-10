@@ -2,6 +2,7 @@
 output/*
 mmBKP/*
 rh-password
+data/slices/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
